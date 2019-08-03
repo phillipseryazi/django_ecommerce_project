@@ -1,0 +1,16 @@
+{% extends "dashboard.html" %}
+{% load cloudinary %}
+
+{% block content %}
+<div class="col-lg-6 col-lg-offset-4 mx-auto">
+	<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="form-group">
+			{{ form }}
+		</div>
+		<div class="">
+			<button class="btn btn-success" type="submit">Add Product</button>
+		</div>
+	</form>
+</div>
+{% endblock content %}
