@@ -51,3 +51,15 @@ class ProductsTestCase(TestCase):
                                     data={'name': 'product', 'price': '100000', 'image': image})
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'products/add_product.html')
+
+    @patch('cloudinary.uploader.upload')
+    def test_my_products_listview(self, cloudinary_obj):
+        cloudinary_obj.return_value = {'url': 'http://www.google.com'}
+        image = self.get_sample_image()
+        self.client.post('/sellex/v1/products/manage/', data={'name': 'product', 'details': 'product details',
+                                                              'price': '100000', 'image': image})
+        self.client.post('/sellex/v1/products/update/1',
+                         data={'name': 'updated product', 'details': 'updated product details',
+                               'price': '100001'})
+        response = self.client.get('/sellex/v1/products/myproducts/')
+        self.assertEqual(response.status_code, 200)
