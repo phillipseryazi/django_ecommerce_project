@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse
-from django.views.generic import (View, UpdateView)
+from django.urls import reverse_lazy
+from django.views.generic import (View, UpdateView, DeleteView)
 from django.views.generic.list import (ListView, )
 from .forms import AddProductForm, UpdateProductForm
 from .models import Product
@@ -51,9 +52,9 @@ class UpdateMyProduct(UpdateView):
     model = Product
     form_class = UpdateProductForm
     template_name = 'products/update_product.html'
+    success_url = reverse_lazy('prods:my_products')
 
-    # specifying both fields and form class is not allowed
-    # fields = ['name', 'details', 'price']
 
-    def get_success_url(self):
-        return reverse('prods:my_products')
+class DeleteProductView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('prods:my_products')
