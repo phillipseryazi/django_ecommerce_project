@@ -12,7 +12,7 @@
 	
 	<title>Sellex</title>
 </head>
-<body>
+<body style="height: 100vh;">
 <nav class="navbar navbar-dark bg-dark">
 	<a class="navbar-brand" href="{% url 'prods:home' %}">Sellex</a>
 	<ul class="navbar-nav">
@@ -21,16 +21,18 @@
 		</li>
 	</ul>
 </nav>
-<div class="container col-md-12">
+<div class="container col-md-12" style="height: 100%">
 	<div class="row">
-		<div class="col-md-3 pt-2">
-			<form class="form-inline my-2 my-lg-0">
-				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+		<div class="col-md-3 pt-2 border-right">
+			<form method="get" class="form-inline my-2 my-lg-0" action="{% url 'prods:search_product' %}">
+				{% csrf_token %}
+				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+				       name="search">
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
 			<ul class="nav flex-column">
 				<li class="nav-item">
-					<a class="nav-link" href="#">Browse</a>
+					<a class="nav-link" href="{% url 'prods:home' %}">Browse</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Cart</a>
@@ -43,7 +45,6 @@
 				</li>
 			</ul>
 		</div>
-		
 		<div class="col-md-9">
 			{% block content %}
 			

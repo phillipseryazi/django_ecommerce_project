@@ -34,3 +34,9 @@ class UpdateProductForm(forms.ModelForm):
     price = forms.CharField(widget=forms.TextInput(
         attrs={'class': 'form-control col-md-12 mt-4 mb-4', 'placeholder': 'price'}
     ), label=False)
+
+
+class SearchForm(forms.Form):
+    product = forms.CharField(widget=forms.TextInput(
+        attrs={'class': 'form-control col-md-6 mt-2', 'placeholder': 'product'}
+    ), label=False)
