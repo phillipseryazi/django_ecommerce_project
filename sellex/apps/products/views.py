@@ -1,17 +1,26 @@
 from django.shortcuts import render, redirect, reverse
 from django.urls import reverse_lazy
-from django.views.generic import (View, UpdateView, DeleteView)
+from django.views.generic import (View, UpdateView, DeleteView, DetailView)
 from django.views.generic.list import (ListView, )
-from .forms import AddProductForm, UpdateProductForm
+from .forms import AddProductForm, UpdateProductForm, SearchForm
 from .models import Product
 from django.contrib import auth
 import cloudinary
 
 
 # Create your views here.
-class HomeView(View):
-    def get(self, request):
-        return render(request, 'products/home.html', {'form': ''})
+class HomeView(ListView):
+    model = Product
+    template_name = 'products/home.html'
+
+    def get_queryset(self):
+        queryset = Product.objects.all().order_by('id')
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['products'] = self.get_queryset()
+        return context
 
 
 class PostProductView(View):
@@ -39,7 +48,7 @@ class MyProductsListView(ListView):
 
     def get_queryset(self):
         current_user = auth.get_user(self.request)
-        queryset = Product.objects.filter(user_id=current_user)
+        queryset = Product.objects.filter(user_id=current_user).order_by('id')
         return queryset
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -58,3 +67,24 @@ class UpdateMyProduct(UpdateView):
 class DeleteProductView(DeleteView):
     model = Product
     success_url = reverse_lazy('prods:my_products')
+
+
+class ProductDetailsView(DetailView):
+    def get_queryset(self):
+        queryset = Product.objects.filter(id=self.kwargs['pk'])
+        return queryset
+
+
+class SearchProductsView(ListView):
+    model = Product
+    template_name = 'products/home.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('search')
+        queryset = Product.objects.filter(name__icontains=query).order_by('id')
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['products'] = self.get_queryset()
+        return context

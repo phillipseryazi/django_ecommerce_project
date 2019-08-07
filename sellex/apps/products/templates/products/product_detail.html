@@ -1,0 +1,15 @@
+{% extends "dashboard.html" %}
+{% block content %}
+<div class="row mt-2">
+	<div class="col-md-4 border-right d-flex justify-content-center" style="height: 100vh;">
+		<img src="{{ object.image }}" alt=""
+		     style="object-fit: none;object-position: center;height: 250px;width: 250px;"/>
+	</div>
+	<div class="col-md-8" style="height: 100vh;">
+		<h2>{{ object.name }}</h2>
+		<p>{{ object.details }}</p>
+		<h5 class="mb-4">{{ object.price }} Ushs</h5>
+		<a href="#" class="btn btn-outline-primary">Add To Cart</a>
+	</div>
+</div>
+{% endblock %}

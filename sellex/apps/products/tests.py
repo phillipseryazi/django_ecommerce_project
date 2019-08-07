@@ -63,3 +63,33 @@ class ProductsTestCase(TestCase):
                                'price': '100001'})
         response = self.client.get('/sellex/v1/products/myproducts/')
         self.assertEqual(response.status_code, 200)
+
+    @patch('cloudinary.uploader.upload')
+    def test_products_home(self, cloudinary_obj):
+        cloudinary_obj.return_value = {'url': 'http://www.google.com'}
+        image = self.get_sample_image()
+        self.client.post('/sellex/v1/products/manage/', data={'name': 'product', 'details': 'product details',
+                                                              'price': '100000', 'image': image})
+        self.client.post('/sellex/v1/products/update/1',
+                         data={'name': 'updated product', 'details': 'updated product details',
+                               'price': '100001'})
+        response = self.client.get('/sellex/v1/products/home/')
+        self.assertEqual(response.status_code, 200)
+
+    @patch('cloudinary.uploader.upload')
+    def test_product_details(self, cloudinary_obj):
+        cloudinary_obj.return_value = {'url': 'http://www.google.com'}
+        image = self.get_sample_image()
+        self.client.post('/sellex/v1/products/manage/', data={'name': 'product', 'details': 'product details',
+                                                              'price': '100000', 'image': image})
+        response = self.client.get('/sellex/v1/products/details/1/')
+        self.assertEqual(response.status_code, 200)
+
+    @patch('cloudinary.uploader.upload')
+    def test_product_seach(self, cloudinary_obj):
+        cloudinary_obj.return_value = {'url': 'http://www.google.com'}
+        image = self.get_sample_image()
+        self.client.post('/sellex/v1/products/manage/', data={'name': 'product', 'details': 'product details',
+                                                              'price': '100000', 'image': image})
+        response = self.client.get('/sellex/v1/products/search/', data={'search': 'product'})
+        self.assertEqual(response.status_code, 200)
