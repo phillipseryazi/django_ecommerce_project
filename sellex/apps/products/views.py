@@ -1,11 +1,17 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import (View, UpdateView, DeleteView, DetailView)
 from django.views.generic.list import (ListView, )
-from .forms import AddProductForm, UpdateProductForm, SearchForm
+from .forms import AddProductForm, UpdateProductForm
 from .models import Product
 from django.contrib import auth
 import cloudinary
+from django.core.paginator import Paginator
+from django.core.cache import cache
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 
 # Create your views here.
@@ -19,7 +25,16 @@ class HomeView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = self.get_queryset()
+        if 'products' in cache:
+            products_list = cache.get('products')
+        else:
+            products_list = self.get_queryset()
+            cache.set('products', products_list, timeout=CACHE_TTL)
+
+        paginator = Paginator(products_list, 6)
+        page = self.request.GET.get('page')
+        products = paginator.get_page(page)
+        context['products'] = products
         return context
 
 
@@ -53,7 +68,16 @@ class MyProductsListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = self.get_queryset()
+        if 'my_products' in cache:
+            products_list = cache.get('my_products')
+        else:
+            products_list = self.get_queryset()
+            cache.set('my_products', products_list, timeout=CACHE_TTL)
+
+        paginator = Paginator(products_list, 6)
+        page = self.request.GET.get('page')
+        products = paginator.get_page(page)
+        context['products'] = products
         return context
 
 
@@ -86,5 +110,8 @@ class SearchProductsView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = self.get_queryset()
+        paginator = Paginator(self.get_queryset(), 6)
+        page = self.request.GET.get('page')
+        products = paginator.get_page(page)
+        context['products'] = products
         return context

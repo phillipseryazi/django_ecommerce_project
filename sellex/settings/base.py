@@ -119,3 +119,13 @@ cloudinary.config(
     api_key=os.environ['CLOUDINARY_API_KEY'],
     api_secret=os.environ['CLOUDINARY_API_SECRET']
 )
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': os.environ['REDIS_URL'],
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient'
+        }
+    }
+}
