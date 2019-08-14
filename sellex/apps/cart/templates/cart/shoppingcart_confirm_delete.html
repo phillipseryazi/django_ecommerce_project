@@ -1,0 +1,16 @@
+{% extends "dashboard.html" %}
+{% block content %}
+<div class="col-lg-6 col-lg-offset-4 mx-auto">
+	<form method="post">
+		{% csrf_token %}
+		<fieldset>
+			<legend class="border-bottom mb-4">Remove Product from Cart</legend>
+			<h2>Are you sure you want to remove this item?</h2>
+		</fieldset>
+		<div class="row">
+			<button class="btn btn-outline-danger ml-3" type="submit">Yes, Remove</button>
+			<a class="btn btn-outline-secondary ml-2" href="{% url 'cart:get_cart' %}">No, Cancel</a>
+		</div>
+	</form>
+</div>
+{% endblock content %}

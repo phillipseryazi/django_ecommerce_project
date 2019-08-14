@@ -1,0 +1,25 @@
+{% extends "dashboard.html" %}
+{% block content %}
+<div class="row pt-2">
+	<div class="row col-md-8 border-right pr-0">
+		{% for item in products %}
+		<div class="col mb-4">
+			<div class="card" style="width: 18rem;">
+				<img class="card-img-top" src="{{ item.image }}" alt=""
+				     style="object-fit: none;object-position: center;height: 200px;">
+				<div class="card-body">
+					<h4 class="card-title">{{ item.name }}</h4>
+					<p class="card-text">{{ item.details|truncatewords:15 }}</p>
+					<h5 class="text-muted">{{ item.price }} USD</h5>
+					<a href="{% url 'cart:remove_from_cart' pk=item.cart_id %}" class="btn btn-outline-danger">Remove</a>
+				</div>
+			</div>
+		</div>
+		{% endfor%}
+	</div>
+	<div class="col-md-4 pl-4">
+		<h3>Total: {{ total }}</h3>
+		<a href="#" class="btn btn-outline-primary">Buy Products</a>
+	</div>
+</div>
+{% endblock content%}

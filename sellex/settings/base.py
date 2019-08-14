@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'sellex.apps.users',
     'sellex.apps.products',
+    'sellex.apps.cart',
 
     'crispy_forms',
     'cloudinary',
