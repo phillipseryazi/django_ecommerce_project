@@ -9,7 +9,8 @@
 		<h2>{{ object.name }}</h2>
 		<p>{{ object.details }}</p>
 		<h5 class="mb-4">{{ object.price }} Ushs</h5>
-		<a href="#" class="btn btn-outline-primary">Add To Cart</a>
+		<a href="{% url 'shopping_cart:add_to_cart' object.id object.user.id %}"
+		   class="btn btn-outline-primary">Add To Cart</a>
 	</div>
 </div>
 {% endblock %}

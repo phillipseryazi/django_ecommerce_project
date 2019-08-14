@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('sellex/v1/auth/', include(('sellex.apps.users.urls', 'users'), namespace='auth')),
     path('sellex/v1/products/', include(('sellex.apps.products.urls', 'products'), namespace='prods')),
+    path('sellex/v1/cart/', include(('sellex.apps.cart.urls', 'cart'), namespace='shopping_cart')),
 ]
