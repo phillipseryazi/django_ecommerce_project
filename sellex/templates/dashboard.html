@@ -23,25 +23,28 @@
 </nav>
 <div class="container col-md-12" style="height: 100%">
 	<div class="row" style="height: 100%">
-		<div class="col-md-3 pt-2 border-right">
-			<form method="get" class="form-inline my-2 my-lg-0" action="{% url 'prods:search_product' %}">
+		<div class="col-md-3 pt-2 pl-0 pr-0 border-right ">
+			<form method="get" class="form-inline my-2 my-lg-0 d-flex justify-content-center pt-2" action="{% url 'prods:search_product' %}">
 				{% csrf_token %}
 				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
 				       name="search">
 				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 			</form>
-			<ul class="nav flex-column">
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'prods:home' %}">Browse</a>
+			<ul class="nav flex-column mt-5">
+				<li class="list-group-item rounded-0 border-right-0">
+					<a href="{% url 'prods:home' %}">BROWSE</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'shopping_cart:get_cart' %}">Cart</a>
+				<li class="list-group-item border-right-0">
+					<a href="{% url 'shopping_cart:get_cart' %}">CART</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'prods:manage_product' %}">Sell</a>
+				<li class="list-group-item border-right-0">
+					<a href="{% url 'prods:manage_product' %}">SELL</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'prods:my_products' %}">My Products</a>
+				<li class="list-group-item border-right-0">
+					<a href="{% url 'prods:my_products' %}">PRODUCTS</a>
+				</li>
+				<li class="list-group-item rounded-0 border-right-0">
+					<a href="#">HISTORY</a>
 				</li>
 			</ul>
 		</div>
