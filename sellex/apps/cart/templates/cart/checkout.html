@@ -11,8 +11,6 @@
 					<h4 class="card-title">{{ item.name }}</h4>
 					<p class="card-text">{{ item.details|truncatewords:15 }}</p>
 					<h5 class="text-muted">{{ item.price }} USD</h5>
-					<a href="{% url 'cart:remove_from_cart' pk=item.cart_id %}"
-					   class="btn btn-outline-danger">Remove</a>
 				</div>
 			</div>
 		</div>
@@ -20,7 +18,14 @@
 	</div>
 	<div class="col-md-4 pl-4">
 		<h3>Total: {{ total }}</h3>
-		<a href="{% url 'cart:payment' %}" class="btn btn-outline-primary">Proceed to Checkout</a>
+		<form method="POST" action="{% url 'cart:payment' %}">
+			{% csrf_token %}
+			<script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+			        data-key="{{ key }}"
+			        data-description="Sellex Checkout"
+			        data-amount="{{ total }}"
+			        data-locale="auto"></script>
+		</form>
 	</div>
 </div>
 {% endblock content %}

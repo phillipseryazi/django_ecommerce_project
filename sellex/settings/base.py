@@ -25,7 +25,7 @@ SECRET_KEY = os.environ['APP_SECRET']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', ]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'ecommerce-site-aeus.herokuapp.com']
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'cloudinary',
+    'stripe',
 ]
 
 MIDDLEWARE = [
@@ -114,13 +115,16 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = 'prods:home'
+LOGOUT_REDIRECT_URL = 'auth:login'
 
+# CLOUDINARY CONFIG
 cloudinary.config(
     cloud_name=os.environ['CLOUDINARY_NAME'],
     api_key=os.environ['CLOUDINARY_API_KEY'],
     api_secret=os.environ['CLOUDINARY_API_SECRET']
 )
 
+# CACHE CONFIG
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
@@ -130,3 +134,10 @@ CACHES = {
         }
     }
 }
+
+# STRIPE CONFIG
+STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
+STRIPE_PUBLISHABLE_KEY = os.environ['STRIPE_PUBLISHABLE_KEY']
+
+# CRISPY FORMS
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
